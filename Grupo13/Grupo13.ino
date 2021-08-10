@@ -1,6 +1,9 @@
 void setup() {
   // put your setup code here, to run once:
-  pinMode(8, INPUT);
+  pinMode(A1, OUTPUT);
+  pinMode(10, INPUT);//entrada 1
+  pinMode(9, INPUT);//entrada 2
+  pinMode(8, INPUT);//Boton
   pinMode(7, OUTPUT);
   pinMode(6, OUTPUT);
   pinMode(5, OUTPUT);
@@ -8,13 +11,13 @@ void setup() {
   pinMode(3, OUTPUT);
   pinMode(2, OUTPUT);
   pinMode(1, OUTPUT);
-
-  pinMode(A0, INPUT);
+  pinMode(A0, INPUT);//Potenciometro
   Serial1.begin(9600);
 
 }
 
 int val = -1;
+int del=500;
 int pwm = 0;
 void loop() {
   // put your main code here, to run repeatedly:
@@ -26,12 +29,16 @@ void loop() {
     if(pwm==255) pwm=0;
     }*/
 
-
+  
   int pot = analogRead(A0);
-  pot = map(pot, 0, 1023, 0, 5);
-
+  digitalWrite(A1,HIGH);
+  pot = map(pot, 0, 1023, 1, 6);
+  
   disp(pot);
-
+  /*delay_pot(pot);
+  
+  digitalWrite(A1,LOW);
+  delay_pot(pot);*/
 }
 
 
@@ -94,44 +101,10 @@ void mostrar5() {
   digitalWrite(2, HIGH); //f
   digitalWrite(1, HIGH); //g
 }
-void mostrar6() {
-  digitalWrite(7, HIGH); //a
-  digitalWrite(6, LOW); //b
-  digitalWrite(5, HIGH); //c
-  digitalWrite(4, HIGH); //d
-  digitalWrite(3, HIGH); //e
-  digitalWrite(2, HIGH); //f
-  digitalWrite(1, HIGH); //g
-}
 
-void mostrar7() {
-  digitalWrite(7, HIGH); //a
-  digitalWrite(6, HIGH); //b
-  digitalWrite(5, HIGH); //c
-  digitalWrite(4, LOW); //d
-  digitalWrite(3, LOW); //e
-  digitalWrite(2, LOW); //f
-  digitalWrite(1, HIGH); //g
-}
-void mostrar8() {
-  digitalWrite(7, HIGH); //a
-  digitalWrite(6, HIGH); //b
-  digitalWrite(5, HIGH); //c
-  digitalWrite(4, HIGH); //d
-  digitalWrite(3, HIGH); //e
-  digitalWrite(2, HIGH); //f
-  digitalWrite(1, HIGH); //g
-}
-
-
-void mostrar9() {
-  digitalWrite(7, HIGH); //a
-  digitalWrite(6, HIGH); //b
-  digitalWrite(5, HIGH); //c
-  digitalWrite(4, LOW); //d
-  digitalWrite(3, LOW); //e
-  digitalWrite(2, HIGH); //f
-  digitalWrite(1, HIGH); //g
+void delay_pot(int pot){
+  int del=1000/pot;
+  delay(del);
 }
 
 
@@ -145,16 +118,15 @@ void mostrar9() {
 
 
 
-
-
+//este es el definitivo
 void disp(int pot) {
-  if (pot ==0) {
+  if (pot ==1) {
     mostrar1();
-  }else if (pot ==1) {
+  }else if (pot ==2) {
     mostrar2();
-  } else if (pot ==2) {
-    mostrar3();
   } else if (pot ==3) {
+    mostrar3();
+  } else if (pot ==4) {
     mostrar4();
   } else{
     mostrar5();
