@@ -1,5 +1,11 @@
+int val = -1;
+int del = 500;
+int pwm = 0;
+bool boton = LOW;
+
 void setup() {
   // put your setup code here, to run once:
+
   pinMode(A1, OUTPUT);
   pinMode(10, INPUT);//entrada 1
   pinMode(9, INPUT);//entrada 2
@@ -12,13 +18,11 @@ void setup() {
   pinMode(2, OUTPUT);
   pinMode(1, OUTPUT);
   pinMode(A0, INPUT);//Potenciometro
+  pinMode(13, OUTPUT); //prueba de led
   Serial1.begin(9600);
-
 }
 
-int val = -1;
-int del=500;
-int pwm = 0;
+
 void loop() {
   // put your main code here, to run repeatedly:
 
@@ -28,17 +32,23 @@ void loop() {
     pwm++;
     if(pwm==255) pwm=0;
     }*/
+    int pot = analogRead(A0);
+    digitalWrite(A1, HIGH);
+    pot = map(pot, 0, 1023, 1, 6);
+    disp(pot);
+  if (boton == LOW) {
+    //AQUI IRÍA EL PRIMER MENSAJE
+    boton = digitalRead(8);
+    
+  } else {//AL PRESIONAR EL BOTON SE QUEDARÁ EN EL ELSE
+    //AQUI IRÍA EL MENSAJE PERSONALIZADO
+    boton=HIGH;
+    
+  }
 
-  
-  int pot = analogRead(A0);
-  digitalWrite(A1,HIGH);
-  pot = map(pot, 0, 1023, 1, 6);
-  
-  disp(pot);
   /*delay_pot(pot);
-  
-  digitalWrite(A1,LOW);
-  delay_pot(pot);*/
+    digitalWrite(A1,LOW);
+    delay_pot(pot);*/
 }
 
 
@@ -102,8 +112,8 @@ void mostrar5() {
   digitalWrite(1, HIGH); //g
 }
 
-void delay_pot(int pot){
-  int del=1000/pot;
+void delay_pot(int pot) {
+  int del = 1000 / pot;
   delay(del);
 }
 
@@ -120,15 +130,15 @@ void delay_pot(int pot){
 
 //este es el definitivo
 void disp(int pot) {
-  if (pot ==1) {
+  if (pot == 1) {
     mostrar1();
-  }else if (pot ==2) {
+  } else if (pot == 2) {
     mostrar2();
-  } else if (pot ==3) {
+  } else if (pot == 3) {
     mostrar3();
-  } else if (pot ==4) {
+  } else if (pot == 4) {
     mostrar4();
-  } else{
+  } else {
     mostrar5();
-  } 
+  }
 }
