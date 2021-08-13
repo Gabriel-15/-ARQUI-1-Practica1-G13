@@ -1,3 +1,8 @@
+#include <MatrizLed.h>
+
+MatrizLed matriz;
+
+
 int val = -1;
 int del = 500;
 int pwm = 0;
@@ -5,7 +10,7 @@ bool boton = LOW;
 
 void setup() {
   // put your setup code here, to run once:
-
+  matriz.begin(12,11,13,2);
   pinMode(A1, OUTPUT);
   pinMode(10, INPUT);//entrada 1
   pinMode(9, INPUT);//entrada 2
@@ -24,6 +29,7 @@ void setup() {
 
 
 void loop() {
+  matriz.escribirFraseScroll("WALTER GAY",200);
   // put your main code here, to run repeatedly:
 
   /*while(true){
