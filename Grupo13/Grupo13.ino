@@ -1,6 +1,8 @@
 #include <MatrizLed.h>
 
+
 MatrizLed matriz;
+
 
 
 int val = -1;
@@ -10,10 +12,12 @@ bool boton = LOW;
 
 void setup() {
   // put your setup code here, to run once:
+  //pines utilizados para la matriz 
   matriz.begin(12,11,13,2);
+  ////////////////////////////////////////////////////////////////////////////// 
+  
   pinMode(A1, OUTPUT);
   pinMode(10, INPUT);//entrada 1
-  pinMode(9, INPUT);//entrada 2
   pinMode(8, INPUT);//Boton
   pinMode(7, OUTPUT);
   pinMode(6, OUTPUT);
@@ -21,15 +25,35 @@ void setup() {
   pinMode(4, OUTPUT);
   pinMode(3, OUTPUT);
   pinMode(2, OUTPUT);
-  pinMode(1, OUTPUT);
+  pinMode(9, OUTPUT);
   pinMode(A0, INPUT);//Potenciometro
   pinMode(13, OUTPUT); //prueba de led
   Serial1.begin(9600);
 }
 
 
+char c='\0';
+String str = "";
+String aux="";
+
 void loop() {
-  matriz.escribirFraseScroll("WALTER GAY",200);
+  matriz.borrar();
+  
+  ///////////////////TERMINAL/////////////////////////////////// 
+//  if(Serial.available()>0){
+//  c=Serial.read();
+//  str+=c;
+//  }
+//  if (c=='\r'){
+//    matriz.borrar();
+//    
+//   matriz.escribirFrase("" ,100);
+//    str="";
+//   c='\0';
+//    }
+  ////////////////////////////////////////////////
+
+  
   // put your main code here, to run repeatedly:
 
   /*while(true){
@@ -40,7 +64,7 @@ void loop() {
     }*/
     int pot = analogRead(A0);
     digitalWrite(A1, HIGH);
-    pot = map(pot, 0, 1023, 1, 6);
+    pot = map(pot, 0, 1023, 1, 5);
     disp(pot);
   if (boton == LOW) {
     //AQUI IRÍA EL PRIMER MENSAJE
@@ -65,7 +89,7 @@ void mostrar0() {
   digitalWrite(4, HIGH); //d
   digitalWrite(3, HIGH); //e
   digitalWrite(2, HIGH); //f
-  digitalWrite(1, LOW); //g
+  digitalWrite(9, LOW); //g
 }
 
 void mostrar1() {
@@ -75,7 +99,7 @@ void mostrar1() {
   digitalWrite(4, LOW); //d
   digitalWrite(3, LOW); //e
   digitalWrite(2, LOW); //f
-  digitalWrite(1, LOW); //g
+  digitalWrite(9, LOW); //g
 }
 
 void mostrar2() {
@@ -85,7 +109,7 @@ void mostrar2() {
   digitalWrite(4, HIGH); //d
   digitalWrite(3, HIGH); //e
   digitalWrite(2, LOW); //f
-  digitalWrite(1, HIGH); //g
+  digitalWrite(9, HIGH); //g
 }
 
 void mostrar3() {
@@ -95,7 +119,7 @@ void mostrar3() {
   digitalWrite(4, HIGH); //d
   digitalWrite(3, LOW); //e
   digitalWrite(2, LOW); //f
-  digitalWrite(1, HIGH); //g
+  digitalWrite(9, HIGH); //g
 }
 
 void mostrar4() {
@@ -105,7 +129,7 @@ void mostrar4() {
   digitalWrite(4, LOW); //d
   digitalWrite(3, LOW); //e
   digitalWrite(2, HIGH); //f
-  digitalWrite(1, HIGH); //g
+  digitalWrite(9, HIGH); //g
 }
 
 void mostrar5() {
@@ -115,24 +139,13 @@ void mostrar5() {
   digitalWrite(4, HIGH); //d
   digitalWrite(3, LOW); //e
   digitalWrite(2, HIGH); //f
-  digitalWrite(1, HIGH); //g
+  digitalWrite(9, HIGH); //g
 }
 
 void delay_pot(int pot) {
-  int del = 1000 / pot;
+  int del = 100 / pot;
   delay(del);
 }
-
-
-
-
-
-
-
-
-
-
-
 
 //este es el definitivo
 void disp(int pot) {
