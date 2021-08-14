@@ -4,12 +4,12 @@
 MatrizLed matriz;
 
 
-
+int pot;
 int val = -1;
 int del = 500;
 int pwm = 0;
 bool boton = LOW;
-String str="P1-GRUPO#-SECCION A";
+String str = "*P1-GRUPO13-SECCION A";
 
 void setup() {
   // put your setup code here, to run once:
@@ -26,24 +26,78 @@ void setup() {
   pinMode(2, OUTPUT);
   pinMode(9, OUTPUT);
   pinMode(A0, INPUT);//Potenciometro
+  pinMode(10, INPUT);
+  pinMode(14, INPUT);
+  pinMode(15, OUTPUT);
+  pinMode(16, OUTPUT);
+  pinMode(17, OUTPUT);
   pinMode(13, OUTPUT); //prueba de led
   Serial.begin(9600);
 }
 const char* foo;
-void loop() { 
-  
- int pot = analogRead(A0);
- // digitalWrite(A1, HIGH);
-  pot = map(pot, 0, 1023, 1, 5);
-  disp(pot);
-  if (Serial.available()) {
-    str = Serial.readString();
-    foo=str.c_str();
-    Serial.println(str);
+void loop() {
+  pot = analogRead(A0);
+  // digitalWrite(A1, HIGH);
+  pot = map(pot, 0, 1023, 1, 6);
+  disp();
+  boton = digitalRead(8);
+  if (boton == LOW) {
+    if (digitalRead(10) == HIGH) {
+      letra_();
+      boton = digitalRead(8);
+    } else {
+      frase_();
+      boton = digitalRead(8);
+    }
+    boton = digitalRead(8);
+  } else {//AQUI IRÍA EL MENSAJE PERSONALIZADO
+    digitalWrite(17,boton);
+    if (Serial.available()) {
+      str = Serial.readString();
+      foo = str.c_str();
+      Serial.println();
+      Serial.println(str);
+    }
+    matriz.borrar();
+    foo = str.c_str();
+    boton = HIGH;
+    if (digitalRead(14) == HIGH) {//Derecha
+      letra_();
+    } else {//IZQUIERDA
+      frase_();
+    }
   }
-  foo=str.c_str();
-  int del=1000/pot;
-  matriz.escribirFraseScroll(foo,del);
+  /*foo = str.c_str();
+    int del = 1000 / pot;
+    matriz.escribirFraseScroll(foo, del);*/
+  disp();
+}
+
+void letra_() {
+  int tamano = str.length();
+  char aux;
+  for (int i = 0; i < tamano; i++) {
+    matriz.borrar();
+    aux = str[i];
+    matriz.escribirCaracter(aux, 0);
+    delay_pot();
+  }
+}
+
+void frase_() {
+  matriz.borrar();
+  foo = str.c_str();
+  int del = 1000 / pot;
+
+  if (digitalRead(14) == LOW) {
+    matriz.borrar();
+    for (int i = 0; i < 10; i++) {
+      matriz.escribirFrase(foo, i); // Texto, posicion en la pantalla
+      delay(500);
+    }
+  } else {
+    matriz.escribirFraseScroll(foo, del);
+  }
 }
 
 
@@ -107,13 +161,14 @@ void mostrar5() {
   digitalWrite(9, HIGH); //g
 }
 
-void delay_pot(int pot) {
-  int del = 100 / pot;
+void delay_pot() {
+  int del = 1000 / pot;
+  disp();
   delay(del);
 }
 
 //este es el definitivo
-void disp(int pot) {
+void disp() {
   if (pot == 1) {
     mostrar1();
   } else if (pot == 2) {
