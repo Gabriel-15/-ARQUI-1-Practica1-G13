@@ -9,13 +9,12 @@ int val = -1;
 int del = 500;
 int pwm = 0;
 bool boton = LOW;
+String str="P1-GRUPO#-SECCION A";
 
 void setup() {
   // put your setup code here, to run once:
-  //pines utilizados para la matriz 
-  matriz.begin(12,11,13,2);
-  ////////////////////////////////////////////////////////////////////////////// 
-  
+  //pines utilizados para la matriz
+  matriz.begin(12, 11, 13, 2);
   pinMode(A1, OUTPUT);
   pinMode(10, INPUT);//entrada 1
   pinMode(8, INPUT);//Boton
@@ -28,57 +27,23 @@ void setup() {
   pinMode(9, OUTPUT);
   pinMode(A0, INPUT);//Potenciometro
   pinMode(13, OUTPUT); //prueba de led
-  Serial1.begin(9600);
+  Serial.begin(9600);
 }
-
-
-char c='\0';
-String str = "";
-String aux="";
-
-void loop() {
-  matriz.borrar();
+const char* foo;
+void loop() { 
   
-  ///////////////////TERMINAL/////////////////////////////////// 
-//  if(Serial.available()>0){
-//  c=Serial.read();
-//  str+=c;
-//  }
-//  if (c=='\r'){
-//    matriz.borrar();
-//    
-//   matriz.escribirFrase("" ,100);
-//    str="";
-//   c='\0';
-//    }
-  ////////////////////////////////////////////////
-
-  
-  // put your main code here, to run repeatedly:
-
-  /*while(true){
-    delay(1000);
-    analogWrite(12, pwm);
-    pwm++;
-    if(pwm==255) pwm=0;
-    }*/
-    int pot = analogRead(A0);
-    digitalWrite(A1, HIGH);
-    pot = map(pot, 0, 1023, 1, 5);
-    disp(pot);
-  if (boton == LOW) {
-    //AQUI IRÍA EL PRIMER MENSAJE
-    boton = digitalRead(8);
-    
-  } else {//AL PRESIONAR EL BOTON SE QUEDARÁ EN EL ELSE
-    //AQUI IRÍA EL MENSAJE PERSONALIZADO
-    boton=HIGH;
-    
+ int pot = analogRead(A0);
+ // digitalWrite(A1, HIGH);
+  pot = map(pot, 0, 1023, 1, 5);
+  disp(pot);
+  if (Serial.available()) {
+    str = Serial.readString();
+    foo=str.c_str();
+    Serial.println(str);
   }
-
-  /*delay_pot(pot);
-    digitalWrite(A1,LOW);
-    delay_pot(pot);*/
+  foo=str.c_str();
+  int del=1000/pot;
+  matriz.escribirFraseScroll(foo,del);
 }
 
 
