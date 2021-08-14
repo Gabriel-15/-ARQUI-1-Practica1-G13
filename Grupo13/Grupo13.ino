@@ -34,25 +34,10 @@ void setup() {
 
 char c='\0';
 String str = "";
-String aux="";
 
 void loop() {
   matriz.borrar();
   
-  ///////////////////TERMINAL/////////////////////////////////// 
-//  if(Serial.available()>0){
-//  c=Serial.read();
-//  str+=c;
-//  }
-//  if (c=='\r'){
-//    matriz.borrar();
-//    
-//   matriz.escribirFrase("" ,100);
-//    str="";
-//   c='\0';
-//    }
-  ////////////////////////////////////////////////
-
   
   // put your main code here, to run repeatedly:
 
@@ -67,7 +52,7 @@ void loop() {
     pot = map(pot, 0, 1023, 1, 5);
     disp(pot);
   if (boton == LOW) {
-    //AQUI IRÍA EL PRIMER MENSAJE
+   msgEstatico();
     boton = digitalRead(8);
     
   } else {//AL PRESIONAR EL BOTON SE QUEDARÁ EN EL ELSE
@@ -161,3 +146,28 @@ void disp(int pot) {
     mostrar5();
   }
 }
+//Terminal
+void terminal(){
+//  if(Serial.available()>0){
+//  c=Serial.read();
+//  str+=c;
+//  }
+//  if (c=='\r'){
+//    matriz.borrar();
+//    
+//   matriz.escribirFrase("" ,100);
+//    str="";
+//   c='\0';
+//    }
+  
+  }
+////////MENSAJE ESTATICO
+void msgEstatico(){
+   matriz.borrar();
+   matriz.escribirFrase("*P1 – GRUPO 13 - SECCION A*");
+  }
+///////////////MENSAJE LETRA
+void msgLetraPorLetra(){
+  
+  
+  }
