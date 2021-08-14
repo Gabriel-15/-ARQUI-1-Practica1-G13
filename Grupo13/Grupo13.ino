@@ -34,6 +34,7 @@ void setup() {
   pinMode(13, OUTPUT); //prueba de led
   Serial.begin(9600);
 }
+<<<<<<< HEAD
 const char* foo;
 void loop() {
   pot = analogRead(A0);
@@ -49,6 +50,31 @@ void loop() {
       frase_();
       boton = digitalRead(8);
     }
+=======
+
+
+char c='\0';
+String str = "";
+
+void loop() {
+  matriz.borrar();
+  
+  
+  // put your main code here, to run repeatedly:
+
+  /*while(true){
+    delay(1000);
+    analogWrite(12, pwm);
+    pwm++;
+    if(pwm==255) pwm=0;
+    }*/
+    int pot = analogRead(A0);
+    digitalWrite(A1, HIGH);
+    pot = map(pot, 0, 1023, 1, 5);
+    disp(pot);
+  if (boton == LOW) {
+   msgEstatico();
+>>>>>>> 735fb060ac9e93c7de103dc1b1492f8d826ff69f
     boton = digitalRead(8);
   } else {//AQUI IRÍA EL MENSAJE PERSONALIZADO
     digitalWrite(17,boton);
@@ -181,3 +207,28 @@ void disp() {
     mostrar5();
   }
 }
+//Terminal
+void terminal(){
+//  if(Serial.available()>0){
+//  c=Serial.read();
+//  str+=c;
+//  }
+//  if (c=='\r'){
+//    matriz.borrar();
+//    
+//   matriz.escribirFrase("" ,100);
+//    str="";
+//   c='\0';
+//    }
+  
+  }
+////////MENSAJE ESTATICO
+void msgEstatico(){
+   matriz.borrar();
+   matriz.escribirFrase("*P1 – GRUPO 13 - SECCION A*");
+  }
+///////////////MENSAJE LETRA
+void msgLetraPorLetra(){
+  
+  
+  }
